@@ -21,10 +21,13 @@ export const registerController = async (
   res: Response,
   next: NextFunction
 ) => {
-  throw new Error('Loi roi')
-  const result = await usersService.register(req.body)
-  return res.json({
-    message: 'Register success',
-    result
-  })
+  try {
+    const result = await usersService.register(req.body)
+    return res.json({
+      message: 'Register success',
+      result
+    })
+  } catch (error) {
+    next(error)
+  }
 }
