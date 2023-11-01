@@ -3,6 +3,7 @@ import { checkSchema } from 'express-validator'
 import { USERS_MESSAGES } from '~/constants/messages'
 import databaseService from '~/services/database.services'
 import usersService from '~/services/users.service'
+import { hashPassword } from '~/utils/crypto'
 import { validate } from '~/utils/validation'
 
 export const loginValidator = validate(
@@ -14,9 +15,9 @@ export const loginValidator = validate(
       trim: true,
       custom: {
         options: async (value, { req }) => {
-          const user = await databaseService.users.findOne({ email: value })
+          const user = await databaseService.users.findOne({ email: value, password: hashPassword(req.body.password) })
           if (user === null) {
-            throw new Error(USERS_MESSAGES.USER_NOT_FOUND)
+            throw new Error(USERS_MESSAGES.EMAIL_OR_PASSWORD_IS_INCORRECT)
           }
           req.user = user
           return true
@@ -47,7 +48,7 @@ export const loginValidator = validate(
         },
         errorMessage: USERS_MESSAGES.CONFIRM_PASSWORD_MUST_BE_STRONG
       }
-    },
+    }
   })
 )
 
