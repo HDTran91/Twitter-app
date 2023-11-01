@@ -5,7 +5,7 @@ import { loginController, registerController } from '~/controllers/users.control
 import { validate } from '~/utils/validation'
 import { wrapRequestHandler } from '~/utils/handlers'
 
-usersRouter.post('/login', loginValidator, loginController)
+usersRouter.post('/login', loginValidator, wrapRequestHandler(loginController))
 
 /**
  * description: register a new user
