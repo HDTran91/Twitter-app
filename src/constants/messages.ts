@@ -25,5 +25,9 @@ export const USERS_MESSAGES = {
   REFRESH_TOKEN_IS_REQUIRED: 'Request token is required',
   REFRESH_TOKEN_INVALID: 'Refresh token invalid',
   USED_REFRESH_TOKEN_NO_EXIST: 'Used fresh token does not exist',
-  LOGOUT_SUCCESS: 'Log out successfully'
+  LOGOUT_SUCCESS: 'Log out successfully',
+  EMAIL_VERIFIED_TOKEN_IS_REQUIRED: 'Email verified token is require',
+  USER_NOT_FOUND: 'User not found',
+  EMAIL_VERIFIED: 'Email already verified before',
+  EMAIL_VERIFY_SUCCESS: 'Email verified successfully'
 } as const
