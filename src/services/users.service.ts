@@ -31,7 +31,7 @@ class UsersService {
       },
       privateKey: process.env.JWT_SECRET_EMAIL_VERIFY_TOKEN as string,
       options: {
-        expiresIn: process.env.Email_Verify_TOKEN_EXPIRES_IN
+        expiresIn: process.env.EMAIL_VERIFY_TOKEN_EXPIRES_IN
       }
     })
   }
@@ -44,6 +44,18 @@ class UsersService {
       privateKey: process.env.JWT_SECRET_REFRESH_TOKEN as string,
       options: {
         expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN
+      }
+    })
+  }
+  private signForgotPasswordToken(user_id: string) {
+    return signToken({
+      payload: {
+        user_id,
+        token_type: TokenType.ForgotPasswordToken
+      },
+      privateKey: process.env.JWT_SECRET_FORGOT_PASSWORD_TOKEN as string,
+      options: {
+        expiresIn: process.env.FORGOT_PASSWORD_EXPIRES_IN
       }
     })
   }
@@ -99,8 +111,10 @@ class UsersService {
         { _id: new ObjectId(user_id) },
         {
           $set: {
-            email_verify_token: '',
-            update_at: new Date()
+            email_verify_token: ''
+          },
+          $currentDate: {
+            updated_at: true
           }
         }
       )
@@ -109,6 +123,41 @@ class UsersService {
     return {
       access_token,
       refresh_token
+    }
+  }
+  async resendVerifyEmail(user_id: string) {
+    const email_verify_token = await this.signEmailVerifyToken(user_id)
+    console.log('Resend verify email: ', email_verify_token)
+    // update again the value of email_verify_token in document user
+    await databaseService.users.updateOne(
+      { _id: new ObjectId(user_id) },
+      {
+        $set: {
+          email_verify_token
+        },
+        $currentDate: {
+          updated_at: true
+        }
+      }
+    )
+    return {
+      message: USERS_MESSAGES.RESEND_VERIFY_EMAIL_SUCCESS
+    }
+  }
+  async forgotPassword(user_id: string) {
+    const forgot_password_token = await this.signForgotPasswordToken(user_id)
+    await databaseService.users.updateOne({ _id: new ObjectId(user_id) }, [
+      {
+        $set: {
+          forgot_password_token,
+          updated_at: '$$NOW'
+        }
+      }
+    ])
+    //send email with link to user https://twitter.com/forgot-password?token=token
+    console.log('forgotPasswordToken', forgot_password_token)
+    return {
+      message: USERS_MESSAGES.CHECK_EMAIL_TO_RESET_PASSWORD
     }
   }
 }
