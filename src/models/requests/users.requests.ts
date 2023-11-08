@@ -28,3 +28,6 @@ export interface LogoutReqBody {
 export interface ForgotPasswordReqBody {
   email: string
 }
+export interface VerifyForgotPasswordReqBody {
+  email: string
+}
