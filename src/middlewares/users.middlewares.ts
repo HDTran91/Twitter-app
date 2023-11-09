@@ -212,7 +212,7 @@ export const registerValidator = validate(
   })
 )
 
-export const accessTokenValidation = validate(
+export const accessTokenValidator = validate(
   checkSchema(
     {
       // check do they send access token or not

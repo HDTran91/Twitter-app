@@ -1,7 +1,7 @@
 import express from 'express'
 const usersRouter = express.Router()
 import {
-  accessTokenValidation,
+  accessTokenValidator,
   emailVerifyTokenValidator,
   forgotPasswordValidator,
   loginValidator,
@@ -13,6 +13,7 @@ import {
 import {
   emailVerifyController,
   forgotPasswordController,
+  getMeController,
   loginController,
   logoutController,
   registerController,
@@ -45,7 +46,7 @@ usersRouter.post('/register', registerValidator, wrapRequestHandler(registerCont
  * header: {Authorization: bearer <access_token>}
  * body: {refresh_token: string}
  */
-usersRouter.post('/logout', accessTokenValidation, refreshTokenValidator, wrapRequestHandler(logoutController))
+usersRouter.post('/logout', accessTokenValidator, refreshTokenValidator, wrapRequestHandler(logoutController))
 
 /**
  * description: verify email when user click on the link
@@ -62,7 +63,7 @@ usersRouter.post('/verify-email', emailVerifyTokenValidator, wrapRequestHandler(
  * Header: {Authorization: bearer <access_token}
  * body: {}
  */
-usersRouter.post('/resend-verify-email', accessTokenValidation, wrapRequestHandler(resendVerifyEmailController))
+usersRouter.post('/resend-verify-email', accessTokenValidator, wrapRequestHandler(resendVerifyEmailController))
 
 /**
  * description: submit email to reset password
@@ -91,4 +92,12 @@ usersRouter.post(
  * body: {forgot_password_token: string, password: string, confirm_password: string}
  */
 usersRouter.post('/reset-password', resetPasswordValidator, wrapRequestHandler(resetPasswordController))
+
+/**
+ * description: get my profile
+ * path: /me
+ * method: get
+ * Header: {Authorization: Bearer <access_token}
+ */
+usersRouter.get('/me', accessTokenValidator, wrapRequestHandler(getMeController))
 export default usersRouter
