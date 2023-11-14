@@ -11,6 +11,8 @@ import { verifyToken } from '~/utils/jwt'
 import { validate } from '~/utils/validation'
 import { capitalize } from 'lodash'
 import { ObjectId } from 'mongodb'
+import { TokenPayload } from '~/models/requests/users.requests'
+import { UserVerifyStatus } from '~/constants/enums'
 
 const passwordSchema: ParamSchema = {
   notEmpty: {
@@ -375,3 +377,14 @@ export const resetPasswordValidator = validate(
     ['body']
   )
 )
+
+export const verifiedUserValidator = (req: Request, res: Response, next: NextFunction) => {
+  const { verify } = req.decoded_authorization as TokenPayload
+  if (verify !== UserVerifyStatus.verified) {
+    throw new ErrorWithStatus({
+      message: USERS_MESSAGES.USER_NOT_VERIFY,
+      status: HTTP_STATUS.FORBIDDEN
+    })
+  }
+  next()
+}
