@@ -12,6 +12,7 @@ import {
   UpdateMeReqBody,
   VerifyEmailReqBody,
   VerifyForgotPasswordReqBody,
+  followReqBody,
   getProfileReqParams
 } from '~/models/requests/users.requests'
 import { USERS_MESSAGES } from '~/constants/messages'
@@ -162,4 +163,15 @@ export const updateMeController = async (
     message: USERS_MESSAGES.UPDATE_ME_SUCCESS,
     result: user
   })
+}
+
+export const followController = async (
+  req: Request<ParamsDictionary, any, followReqBody>,
+  res: Response,
+  next: NextFunction
+) => {
+  const { user_id } = req.decoded_authorization as TokenPayload
+  const { followed_user_id } = req.body
+  const result = await usersService.follow(user_id, followed_user_id)
+  return res.json(result)
 }

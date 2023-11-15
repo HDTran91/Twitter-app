@@ -50,5 +50,8 @@ export const USERS_MESSAGES = {
   IMAGE_URL_MUST_BE_A_STRING: 'Bio must be a string',
   IMAGE_URL_LENGTH_MUST_BE_FROM_1_TO_400: 'Bio length must be from 1 to 400',
   UPDATE_ME_SUCCESS: 'Update profile successfully',
-  GET_PROFILE_SUCCESS: 'Get profile successfully'
+  GET_PROFILE_SUCCESS: 'Get profile successfully',
+  FOLLOW_SUCCESS: 'Follow success',
+  INVALID_FOLLOWED_USER_ID: 'Invalid followed user id',
+  FOLLOWED: 'followed'
 } as const

@@ -3,6 +3,7 @@ const usersRouter = express.Router()
 import {
   accessTokenValidator,
   emailVerifyTokenValidator,
+  followValidator,
   forgotPasswordValidator,
   loginValidator,
   refreshTokenValidator,
@@ -14,6 +15,7 @@ import {
 } from '~/middlewares/users.middlewares'
 import {
   emailVerifyController,
+  followController,
   forgotPasswordController,
   getMeController,
   getProfileController,
@@ -138,4 +140,19 @@ usersRouter.patch(
  * method: get
  */
 usersRouter.get('/:username', wrapRequestHandler(getProfileController))
+
+/**
+ * description: follow someone
+ * path: /follow
+ * method: post
+ * Header: {Authorization: bearer <access_token}
+ * body: {followed_user_id: string}
+ */
+usersRouter.post(
+  '/follow',
+  accessTokenValidator,
+  verifiedUserValidator,
+  followValidator,
+  wrapRequestHandler(followController)
+)
 export default usersRouter
