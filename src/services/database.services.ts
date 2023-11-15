@@ -35,7 +35,6 @@ class DatabaseService {
   get followers(): Collection<Follower> {
     return this.db.collection(process.env.DB_FOLLOWERS_COLLECTION as string)
   }
-
 }
 
 //create object

@@ -52,6 +52,8 @@ export const USERS_MESSAGES = {
   UPDATE_ME_SUCCESS: 'Update profile successfully',
   GET_PROFILE_SUCCESS: 'Get profile successfully',
   FOLLOW_SUCCESS: 'Follow success',
-  INVALID_FOLLOWED_USER_ID: 'Invalid followed user id',
-  FOLLOWED: 'followed'
+  INVALID_USER_ID: 'Invalid followed user id',
+  FOLLOWED: 'followed',
+  ALREADY_UNFOLLOWED: 'Already unfollowed',
+  UNFOLLOW_SUCCESS: 'Unfollow Success'
 } as const
