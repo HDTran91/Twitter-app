@@ -1,7 +1,7 @@
 import express, { Request, Response, NextFunction, RequestHandler } from 'express'
 
-export const wrapRequestHandler = (func: RequestHandler) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+export const wrapRequestHandler = <P>(func: RequestHandler<P>) => {
+  return async (req: Request<P>, res: Response, next: NextFunction) => {
     try {
       await func(req, res, next)
     } catch (error) {
@@ -9,3 +9,6 @@ export const wrapRequestHandler = (func: RequestHandler) => {
     }
   }
 }
+
+// want to get Request<{username:string}>
+// but we get Request<{[key: string]: string}>
