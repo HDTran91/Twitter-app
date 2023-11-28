@@ -24,6 +24,7 @@ import {
   getProfileController,
   loginController,
   logoutController,
+  oauthController,
   registerController,
   resendVerifyEmailController,
   resetPasswordController,
@@ -45,12 +46,13 @@ import { UpdateMeReqBody } from '~/models/requests/users.requests'
 usersRouter.post('/login', loginValidator, wrapRequestHandler(loginController))
 
 /**
- * description: register a new user
- * path" /register
- * Method: POST
- * body: {name: string, email: string, password:string,confirm_password: string,
- * date_of_birth: ISO8601}
+ * description: OAuth with google
+ * path" /oauth/google
+ * Method: get
+ * Query:{code:string}
  */
+usersRouter.get('/oauth/google', wrapRequestHandler(oauthController))
+
 usersRouter.post('/register', registerValidator, wrapRequestHandler(registerController))
 /**
  * description: logout user
