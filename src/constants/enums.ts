@@ -17,9 +17,9 @@ export enum MediaType {
 }
 
 export enum TweetType {
-  tweet,
+  Tweet,
   Retweet,
-  comment,
+  Comment,
   QuoteTweet
 }
 
